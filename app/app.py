@@ -4,9 +4,14 @@ from models.database import db_session
 from datetime import datetime
 from app import key
 from hashlib import sha256
+import random,string,logging,qrcode,os
 
 app = Flask(__name__)
 app.secret_key = key.SECRET_KEY
+
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
 
 
 @app.route("/")
@@ -24,11 +29,16 @@ def index():
 def add():
     title = request.form["title"]
     body = request.form["body"]
-    content = OnegaiContent(title,body,datetime.now())
+    urlrandom = ''.join(random.choices(string.ascii_lowercase, k=20))
+    content = OnegaiContent(title,body,datetime.now(),urlrandom)
     db_session.add(content)
     db_session.commit()
-    return redirect(url_for("index"))
 
+    qrurl = 'http://127.0.0.1:5000/qrshow?name=' + urlrandom
+    img = qrcode.make(qrurl)
+    img.save('./app/static/images/' + urlrandom + '.png')
+    return redirect(url_for('qrshow', name=urlrandom))
+    #return redirect(url_for("index"))
 
 @app.route("/update",methods=["post"])
 def update():
@@ -47,6 +57,18 @@ def delete():
         db_session.delete(content)
     db_session.commit()
     return redirect(url_for("index"))
+
+@app.route("/qrshow")
+def qrshow():
+    name = request.args.get("name")
+    all_onegai = OnegaiContent.query.filter_by(urlrandom=name).all()
+    return render_template("qrshow.html",all_onegai=all_onegai, urlrandom=name)
+
+#POST working
+#@app.route("/qrshow",methods=["get"])
+#def qrshow():
+    #all_onegai = OnegaiContent.query.filter_by(urlrandom=request.form["qrshow"]).all()
+    #return render_template("qrshow.html",all_onegai=all_onegai)
 
 
 @app.route("/top")

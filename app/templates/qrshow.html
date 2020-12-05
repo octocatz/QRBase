@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registar</title>
+</head>
+<body>
+    <h1>QR情報</h1>
+
+    {% for onegai in all_onegai %}
+    <div>
+        <p>name: {{onegai.title}}</p>
+        <p>symptoms：{{onegai.body}}</p>
+        <p>create date: {{onegai.date}}</p>
+    </div>
+    {% endfor %}
+    <img src="/static/images/{{urlrandom}}.png" alt="qrcode">
+
+
+</body>
+</html>

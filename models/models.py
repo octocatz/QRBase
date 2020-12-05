@@ -9,11 +9,13 @@ class OnegaiContent(Base):
     title = Column(String(128), unique=True)
     body = Column(Text)
     date = Column(DateTime, default=datetime.now())
+    urlrandom = Column(Text)
 
-    def __init__(self, title=None, body=None, date=None):
+    def __init__(self, title=None, body=None, date=None, urlrandom=None):
         self.title = title
         self.body = body
         self.date = date
+        self.urlrandom = urlrandom
 
     def __repr__(self):
         return '<Title %r>' % (self.title)
