@@ -6,6 +6,7 @@ from app import key
 from hashlib import sha256
 import random,string,logging,qrcode,os
 
+
 app = Flask(__name__)
 app.secret_key = key.SECRET_KEY
 
@@ -34,7 +35,8 @@ def add():
     db_session.add(content)
     db_session.commit()
 
-    qrurl = 'http://127.0.0.1:5000/qrshow?name=' + urlrandom
+    #qrurl = 'http://127.0.0.1:5000/qrshow?name=' + urlrandom
+    qrurl = 'https://flask-sample100.herokuapp.com/qrshow?name=' + urlrandom
     img = qrcode.make(qrurl)
     img.save('./app/static/images/' + urlrandom + '.png')
     return redirect(url_for('qrshow', name=urlrandom))
