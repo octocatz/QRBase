@@ -101,8 +101,8 @@ def newcomer():
     return render_template("newcomer.html",status=status)
 
 
-@app.route("/registar",methods=["post"])
-def registar():
+@app.route("/register",methods=["post"])
+def register():
     user_name = request.form["user_name"]
     user = User.query.filter_by(user_name=user_name).first()
     if user:
