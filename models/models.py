@@ -3,19 +3,21 @@ from models.database import Base
 from datetime import datetime
 
 
-class OnegaiContent(Base):
-    __tablename__ = 'onegaicontents'
+class QRinfo(Base):
+    __tablename__ = 'qrinfo'
     id = Column(Integer, primary_key=True)
-    title = Column(String(128), unique=True)
-    body = Column(Text)
-    date = Column(DateTime, default=datetime.now())
+    name = Column(Text)
+    title = Column(Text)
+    createdate = Column(DateTime, default=datetime.now())
     urlrandom = Column(Text)
+    imgflg = Column(Integer)
 
-    def __init__(self, title=None, body=None, date=None, urlrandom=None):
+    def __init__(self, name=None, title=None, createdate=None, urlrandom=None, imgflg=None):
+        self.name = name
         self.title = title
-        self.body = body
-        self.date = date
+        self.createdate = createdate
         self.urlrandom = urlrandom
+        self.imgflg = imgflg
 
     def __repr__(self):
         return '<Title %r>' % (self.title)

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>QR service management console!</h1>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">title</th>
+                <th scope="col">create date</th>
+                <th scope="col" class='urltxt'>url</th>
+                <th scope="col">QR</th>
+                <th scope="col">delete</th>
+            </tr>
+        </thead>
+        {% for qrinfo in all_qrinfo %}
+        <tbody>
+            <tr>
+                <th>{{qrinfo.id}}</th>
+                <th>{{qrinfo.title}}</th>
+                <td>{{qrinfo.body}}</td>
+                <td>{{qrinfo.date}}</td>
+                <td>{{qrinfo.urlrandom}}</td>
+                <td>
+                    <div class="qrimg">
+                        <img src="/static/images/{{qrinfo.urlrandom}}.png"　class="qrimg" width="50%" height="50%" alt="qrcode">
+                    </div>
+                </td>
+                <td>
+                    <form action="qrdelete" method = "POST">
+                    <button type="submit" name="qrid" value={{qrinfo.id}}>delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+    <p><a href="/qrcreate">QR Code create</a></p>
+
+    <p><a href="/index">戻る</a></p>
+
+</body>
+</html>
